@@ -47,6 +47,7 @@ RUN set -ex; \
 	ibus-gtk3 \
 	ibus-qt4 \
 	openssh-server \
+	telegram \
     && apt-get autoclean \
     && apt-get autoremove \
     && rm -rf /var/lib/apt/lists/*
@@ -60,6 +61,7 @@ RUN flatpak install HandBrake-latest-master-x86_64.flatpak
 COPY . /app
 RUN chmod +x /app/conf.d/websockify.sh
 RUN chmod +x /app/run.sh
+RUN chmod +x /app/start.sh
 RUN chmod +x /app/expect_vnc.sh
 RUN echo 'deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main' >> /etc/apt/sources.list
 RUN echo "deb http://deb.anydesk.com/ all main"  >> /etc/apt/sources.list
@@ -68,6 +70,12 @@ RUN sudo sh -c 'echo "deb https://mkvtoolnix.download/ubuntu/ $(lsb_release -sc)
 RUN wget -q -O - https://mkvtoolnix.download/gpg-pub-moritzbunkus.txt | sudo apt-key add -
 RUN sudo apt-get update
 RUN sudo apt-get install mkvtoolnix mkvtoolnix-gui
+RUN sudo apt update
+RUN sudo apt install mkvtoolnix mkvtoolnix-gui
+RUN sudo add-apt-repository ppa:stebbins/handbrake-releases
+RUN sudo apt-get update
+RUN sudo apt-get install handbrake-cli handbrake-gtk
+RUN sudo apt install snapd
 RUN wget --no-check-certificate -qO - https://keys.anydesk.com/repos/DEB-GPG-KEY -O /app/anydesk.key
 RUN apt-key add /app/anydesk.key
 RUN apt-key add /app/linux_signing_key.pub
