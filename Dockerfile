@@ -8,6 +8,7 @@ RUN apt-get upgrade
 RUN set -ex; \
     apt-get update \
     && apt-get install -y --no-install-recommends \
+    	flatpak \
         dbus-x11 \
         nautilus \
         gedit \
@@ -52,6 +53,9 @@ RUN set -ex; \
 RUN dpkg-reconfigure locales
 
 RUN sudo apt-get update && sudo apt-get install -y obs-studio
+RUN flatpak --user install https://flathub.org/repo/appstream/fr.handbrake.ghb.flatpakref
+RUN curl -O https://nightly.handbrake.fr/HandBrake-latest-master-x86_64.flatpak
+RUN flatpak install HandBrake-latest-master-x86_64.flatpak
 
 COPY . /app
 RUN chmod +x /app/conf.d/websockify.sh
@@ -60,6 +64,10 @@ RUN chmod +x /app/expect_vnc.sh
 RUN echo 'deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main' >> /etc/apt/sources.list
 RUN echo "deb http://deb.anydesk.com/ all main"  >> /etc/apt/sources.list
 RUN wget --no-check-certificate https://dl.google.com/linux/linux_signing_key.pub -P /app
+RUN sudo sh -c 'echo "deb https://mkvtoolnix.download/ubuntu/ $(lsb_release -sc) main" >> /etc/apt/sources.list.d/bunkus.org.list'
+RUN wget -q -O - https://mkvtoolnix.download/gpg-pub-moritzbunkus.txt | sudo apt-key add -
+RUN sudo apt-get update
+RUN sudo apt-get install mkvtoolnix mkvtoolnix-gui
 RUN wget --no-check-certificate -qO - https://keys.anydesk.com/repos/DEB-GPG-KEY -O /app/anydesk.key
 RUN apt-key add /app/anydesk.key
 RUN apt-key add /app/linux_signing_key.pub
