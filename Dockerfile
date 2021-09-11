@@ -47,7 +47,6 @@ RUN set -ex; \
 	ibus-gtk3 \
 	ibus-qt4 \
 	openssh-server \
-	telegram \
 	handbrake \
 	mkvtoolnix \
     && apt-get autoclean \
@@ -62,6 +61,9 @@ RUN sudo apt install flatpak
 RUN flatpak --user install https://flathub.org/repo/appstream/fr.handbrake.ghb.flatpakref
 RUN curl -O https://nightly.handbrake.fr/HandBrake-latest-master-x86_64.flatpak
 RUN flatpak install HandBrake-latest-master-x86_64.flatpak
+RUN sudo swupd bundle-list | grep desktop
+RUN sudo swupd bundle-add desktop
+RUN flatpak install flathub org.telegram.desktop
 
 COPY . /app
 RUN chmod +x /app/conf.d/websockify.sh
