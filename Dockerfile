@@ -48,12 +48,17 @@ RUN set -ex; \
 	ibus-qt4 \
 	openssh-server \
 	telegram \
+	handbrake \
+	mkvtoolnix \
     && apt-get autoclean \
     && apt-get autoremove \
     && rm -rf /var/lib/apt/lists/*
 RUN dpkg-reconfigure locales
 
 RUN sudo apt-get update && sudo apt-get install -y obs-studio
+RUN sudo add-apt-repository ppa:alexlarsson/flatpak
+RUN sudo apt update
+RUN sudo apt install flatpak
 RUN flatpak --user install https://flathub.org/repo/appstream/fr.handbrake.ghb.flatpakref
 RUN curl -O https://nightly.handbrake.fr/HandBrake-latest-master-x86_64.flatpak
 RUN flatpak install HandBrake-latest-master-x86_64.flatpak
@@ -72,9 +77,6 @@ RUN sudo apt-get update
 RUN sudo apt-get install mkvtoolnix mkvtoolnix-gui
 RUN sudo apt update
 RUN sudo apt install mkvtoolnix mkvtoolnix-gui
-RUN sudo add-apt-repository ppa:stebbins/handbrake-releases
-RUN sudo apt-get update
-RUN sudo apt-get install handbrake-cli handbrake-gtk
 RUN sudo apt install snapd
 RUN wget --no-check-certificate -qO - https://keys.anydesk.com/repos/DEB-GPG-KEY -O /app/anydesk.key
 RUN apt-key add /app/anydesk.key
