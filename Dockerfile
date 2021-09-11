@@ -49,7 +49,6 @@ RUN set -ex; \
 	ibus-qt4 \
 	openssh-server \
 	telegram-desktop \
-	telegram-cli \
 	handbrake \
 	mkvtoolnix \
     && apt-get autoclean \
