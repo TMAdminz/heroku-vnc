@@ -55,7 +55,6 @@ RUN set -ex; \
 RUN dpkg-reconfigure locales
 
 RUN sudo apt-get update && sudo apt-get install -y obs-studio
-RUN sudo add-apt-repository ppa:alexlarsson/flatpak
 RUN sudo apt update
 RUN sudo apt install flatpak
 RUN flatpak --user install https://flathub.org/repo/appstream/fr.handbrake.ghb.flatpakref
