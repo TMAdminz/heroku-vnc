@@ -9,6 +9,7 @@ RUN set -ex; \
     apt-get update \
     && apt-get install -y --no-install-recommends \
     	flatpak \
+	snap \
         dbus-x11 \
         nautilus \
         gedit \
@@ -47,6 +48,8 @@ RUN set -ex; \
 	ibus-gtk3 \
 	ibus-qt4 \
 	openssh-server \
+	telegram-desktop \
+	telegram-cli \
 	handbrake \
 	mkvtoolnix \
     && apt-get autoclean \
@@ -56,10 +59,6 @@ RUN dpkg-reconfigure locales
 
 RUN sudo apt-get update && sudo apt-get install -y obs-studio
 RUN sudo apt update
-RUN sudo apt install flatpak
-RUN flatpak --user install https://flathub.org/repo/appstream/fr.handbrake.ghb.flatpakref
-RUN curl -O https://nightly.handbrake.fr/HandBrake-latest-master-x86_64.flatpak
-RUN flatpak install HandBrake-latest-master-x86_64.flatpak
 RUN sudo swupd bundle-list | grep desktop
 RUN sudo swupd bundle-add desktop
 RUN flatpak install flathub org.telegram.desktop
@@ -75,10 +74,6 @@ RUN wget --no-check-certificate https://dl.google.com/linux/linux_signing_key.pu
 RUN sudo sh -c 'echo "deb https://mkvtoolnix.download/ubuntu/ $(lsb_release -sc) main" >> /etc/apt/sources.list.d/bunkus.org.list'
 RUN wget -q -O - https://mkvtoolnix.download/gpg-pub-moritzbunkus.txt | sudo apt-key add -
 RUN sudo apt-get update
-RUN sudo apt-get install mkvtoolnix mkvtoolnix-gui
-RUN sudo apt update
-RUN sudo apt install mkvtoolnix mkvtoolnix-gui
-RUN sudo apt install snapd
 RUN wget --no-check-certificate -qO - https://keys.anydesk.com/repos/DEB-GPG-KEY -O /app/anydesk.key
 RUN apt-key add /app/anydesk.key
 RUN apt-key add /app/linux_signing_key.pub
